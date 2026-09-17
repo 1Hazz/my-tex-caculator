@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Myanmar Tax Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, "Myanmar Text", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .calculator {
+      width: 100%;
+      max-width: 650px;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #172033;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #172033;
+      margin: 24px 0 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d8dce3;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+      margin-bottom: 15px;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 22px;
+      border-radius: 15px;
+      background: #f0f7ff;
+      border: 1px solid #d7e8ff;
+      display: none;
+    }
+
+    .result h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #172033;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 0;
+      border-bottom: 1px solid #dce8f5;
+      font-size: 14px;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .tax {
+      font-size: 24px;
+      font-weight: bold;
+      color: #dc2626;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #777;
+    }
+
+    @media (max-width: 550px) {
+      .calculator {
+        padding: 20px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .header h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="calculator">
+
+    <div class="header">
+      <h1>🇲🇲 Myanmar Tax Calculator</h1>
+      <p>လစာဝင်ငွေခွန် ခန့်မှန်းတွက်ချက်ရန်</p>
+    </div>
+
+    <div class="section-title">
+      💰 ဝင်ငွေ
+    </div>
+
+    <label>လစဉ်လစာ (ကျပ်)</label>
+    <input
+      type="number"
+      id="monthlySalary"
+      placeholder="ဥပမာ - 500000"
+      min="0"
+    >
+
+    <label>တစ်နှစ်အတွင်း ရရှိသော အခြားဝင်ငွေ (ကျပ်)</label>
+    <input
+      type="number"
+      id="otherIncome"
+      placeholder="0"
+      min="0"
+    >
+
+    <div class="section-title">
+      🧾 သက်သာခွင့်များ
+    </div>
+
+    <div class="row">
+
+      <div>
+        <label>အတူနေမိဘ အရေအတွက်</label>
+        <input
+          type="number"
+          id="parents"
+          value="0"
+          min="0"
+        >
+      </div>
+
+      <div>
+        <label>သားသမီး အရေအတွက်</label>
+        <input
+          type="number"
+          id="children"
+          value="0"
+          min="0"
+        >
+      </div>
+
+    </div>
+
+    <label>အိမ်ထောင်ဖက်ရှိပါသလား?</label>
+    <select
+      id="spouse"
+      style="
+        width:100%;
+        padding:13px;
+        border:1px solid #d8dce3;
+        border-radius:10px;
+        margin-bottom:15px;
+        background:white;
+      "
+    >
+      <option value="0">မရှိ</option>
+      <option value="1000000">ရှိ</option>
+    </select>
+
+    <label>အသက်အာမခံ / Insurance Premium (ကျပ်)</label>
+    <input
+      type="number"
+      id="insurance"
+      value="0"
+      min="0"
+    >
+
+    <label>Social Security ထည့်ဝင်ငွေ (ကျပ်)</label>
+    <input
+      type="number"
+      id="socialSecurity"
+      value="0"
+      min="0"
+    >
+
+    <button onclick="calculateTax()">
+      🧮 အခွန်တွက်မည်
+    </button>
+
+    <div class="result" id="result">
+
+      <h2>📊 တွက်ချက်မှုရလဒ်</h2>
+
+      <div class="result-row">
+        <span>တစ်နှစ်လစာ</span>
+        <strong id="annualSalary">0 Ks</strong>
+      </div>
+
+      <div class="result-row">
+        <span>စုစုပေါင်းဝင်ငွေ</span>
+        <strong id="grossIncome">0 Ks</strong>
+      </div>
+
+      <div class="result-row">
+        <span>စုစုပေါင်းသက်သာခွင့်</span>
+        <strong id="totalRelief">0 Ks</strong>
+      </div>
+
+      <div class="result-row">
+        <span>အခွန်စည်းကြပ်ရန် ဝင်ငွေ</span>
+        <strong id="taxableIncome">0 Ks</strong>
+      </div>
+
+      <div class="result-row">
+        <span>တစ်နှစ်ကျသင့်အခွန်</span>
+        <strong class="tax" id="annualTax">0 Ks</strong>
+      </div>
+
+      <div class="result-row">
+        <span>လစဉ်ပျမ်းမျှအခွန်</span>
+        <strong id="monthlyTax">0 Ks</strong>
+      </div>
+
+      <div class="note">
+        ⚠️ ဤ Calculator သည် ခန့်မှန်းတွက်ချက်ရန်အတွက်ဖြစ်ပါသည်။
+        အမှန်တကယ်အခွန်ပမာဏသည် သင်၏အခွန်အခြေအနေ၊
+        ဝင်ငွေအမျိုးအစားနှင့် သက်ဆိုင်ရာ IRD စည်းမျဉ်းများပေါ်
+        မူတည်နိုင်ပါသည်။
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+function formatMMK(number) {
+  return Math.round(number).toLocaleString("en-US") + " Ks";
+}
+
+
+function calculateProgressiveTax(income) {
+
+  let tax = 0;
+
+  if (income <= 2000000) {
+    tax = 0;
+  }
+
+  else if (income <= 10000000) {
+    tax = (income - 2000000) * 0.05;
+  }
+
+  else if (income <= 30000000) {
+    tax =
+      (8000000 * 0.05) +
+      ((income - 10000000) * 0.10);
+  }
+
+  else if (income <= 50000000) {
+    tax =
+      (8000000 * 0.05) +
+      (20000000 * 0.10) +
+      ((income - 30000000) * 0.15);
+  }
+
+  else if (income <= 70000000) {
+    tax =
+      (8000000 * 0.05) +
+      (20000000 * 0.10) +
+      (20000000 * 0.15) +
+      ((income - 50000000) * 0.20);
+  }
+
+  else {
+    tax =
+      (8000000 * 0.05) +
+      (20000000 * 0.10) +
+      (20000000 * 0.15) +
+      (20000000 * 0.20) +
+      ((income - 70000000) * 0.25);
+  }
+
+  return Math.max(0, tax);
+}
+
+
+function calculateTax() {
+
+  const monthlySalary =
+    Number(document.getElementById("monthlySalary").value) || 0;
+
+  const otherIncome =
+    Number(document.getElementById("otherIncome").value) || 0;
+
+  const parents =
+    Number(document.getElementById("parents").value) || 0;
+
+  const children =
+    Number(document.getElementById("children").value) || 0;
+
+  const spouse =
+    Number(document.getElementById("spouse").value) || 0;
+
+  const insurance =
+    Number(document.getElementById("insurance").value) || 0;
+
+  const socialSecurity =
+    Number(document.getElementById("socialSecurity").value) || 0;
+
+
+  const annualSalary = monthlySalary * 12;
+
+  const grossIncome =
+    annualSalary + otherIncome;
+
+
+  const basicRelief =
+    Math.min(grossIncome * 0.20, 10000000);
+
+
+  const parentRelief =
+    parents * 1000000;
+
+
+  const childRelief =
+    children * 500000;
+
+
+  const spouseRelief =
+    spouse;
+
+
+  const totalRelief =
+    basicRelief +
+    parentRelief +
+    childRelief +
+    spouseRelief +
+    insurance +
+    socialSecurity;
+
+
+  let taxableIncome =
+    grossIncome - totalRelief;
+
+  taxableIncome =
+    Math.max(0, taxableIncome);
+
+
+  let tax = 0;
+
+  if (annualSalary <= 4800000) {
+    tax = 0;
+  } else {
+    tax =
+      calculateProgressiveTax(taxableIncome);
+  }
+
+
+  const monthlyTax =
+    tax / 12;
+
+
+  document.getElementById("annualSalary").textContent =
+    formatMMK(annualSalary);
+
+  document.getElementById("grossIncome").textContent =
+    formatMMK(grossIncome);
+
+  document.getElementById("totalRelief").textContent =
+    formatMMK(totalRelief);
+
+  document.getElementById("taxableIncome").textContent =
+    formatMMK(taxableIncome);
+
+  document.getElementById("annualTax").textContent =
+    formatMMK(tax);
+
+  document.getElementById("monthlyTax").textContent =
+    formatMMK(monthlyTax);
+
+
+  document.getElementById("result").style.display =
+    "block";
+}
+
+</script>
+
+</body>
+</html>
