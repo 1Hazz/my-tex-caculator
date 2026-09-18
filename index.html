@@ -27,9 +27,9 @@
       width: 100%;
       max-width: 650px;
       background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #e5e5e5
     }
 
     .header {
@@ -38,19 +38,20 @@
     }
 
     .header h1 {
-      font-size: 28px;
+      font-size: 32px;
       color: #172033;
       margin-bottom: 8px;
     }
 
     .header p {
       color: #777;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 400;
     }
 
     .section-title {
-      font-size: 17px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: 600;
       color: #172033;
       margin: 24px 0 12px;
     }
@@ -59,23 +60,24 @@
       display: block;
       margin-bottom: 7px;
       font-size: 14px;
+      font-weight: 600;
       color: #444;
     }
 
     input {
       width: 100%;
-      padding: 13px 14px;
+      padding: 14px 16px;
       border: 1px solid #d8dce3;
       border-radius: 10px;
       outline: none;
-      font-size: 15px;
+      font-size: 24px;
+      font-weight: 600;
       margin-bottom: 15px;
       transition: 0.2s;
     }
 
     input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+      border-color: #111111;
     }
 
     .row {
@@ -84,36 +86,38 @@
       gap: 15px;
     }
 
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 15px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: 0.2s;
-    }
+   button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  height: 56px;
+  background: #111111;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
     button:hover {
-      background: #1d4ed8;
-      transform: translateY(-1px);
+      background: #222222;
     }
 
     .result {
-      margin-top: 25px;
-      padding: 22px;
-      border-radius: 15px;
-      background: #f0f7ff;
-      border: 1px solid #d7e8ff;
+      margin-top: 32px;
+      padding: 24px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
       display: none;
     }
 
     .result h2 {
-      font-size: 18px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
       margin-bottom: 15px;
       color: #172033;
     }
@@ -122,7 +126,7 @@
       display: flex;
       justify-content: space-between;
       gap: 20px;
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 1px solid #dce8f5;
       font-size: 14px;
     }
@@ -132,8 +136,8 @@
     }
 
     .tax {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 40px;
+      font-weight: 700;
       color: #dc2626;
     }
 
@@ -170,6 +174,7 @@
       <p>လစာဝင်ငွေခွန် ခန့်မှန်းတွက်ချက်ရန်</p>
     </div>
 
+    <!-- Income -->
     <div class="section-title">
       💰 ဝင်ငွေ
     </div>
@@ -190,6 +195,7 @@
       min="0"
     >
 
+    <!-- Relief -->
     <div class="section-title">
       🧾 သက်သာခွင့်များ
     </div>
@@ -254,6 +260,7 @@
       🧮 အခွန်တွက်မည်
     </button>
 
+    <!-- Result -->
     <div class="result" id="result">
 
       <h2>📊 တွက်ချက်မှုရလဒ်</h2>
@@ -310,6 +317,16 @@ function formatMMK(number) {
 function calculateProgressiveTax(income) {
 
   let tax = 0;
+
+  /*
+    Myanmar individual salary income tax rates
+    0%       : 1 - 2,000,000
+    5%       : 2,000,001 - 10,000,000
+    10%      : 10,000,001 - 30,000,000
+    15%      : 30,000,001 - 50,000,000
+    20%      : 50,000,001 - 70,000,000
+    25%      : 70,000,001+
+  */
 
   if (income <= 2000000) {
     tax = 0;
@@ -377,28 +394,40 @@ function calculateTax() {
     Number(document.getElementById("socialSecurity").value) || 0;
 
 
+  // Annual salary
   const annualSalary = monthlySalary * 12;
 
+  // Total income
   const grossIncome =
     annualSalary + otherIncome;
 
+
+  /*
+    Basic relief:
+    20% of income
+    Maximum = 10,000,000 Ks
+  */
 
   const basicRelief =
     Math.min(grossIncome * 0.20, 10000000);
 
 
+  // Parents: 1,000,000 Ks each
   const parentRelief =
     parents * 1000000;
 
 
+  // Children: 500,000 Ks each
   const childRelief =
     children * 500000;
 
 
+  // Spouse: 1,000,000 Ks
   const spouseRelief =
     spouse;
 
 
+  // Total relief
   const totalRelief =
     basicRelief +
     parentRelief +
@@ -408,12 +437,18 @@ function calculateTax() {
     socialSecurity;
 
 
+  // Taxable income
   let taxableIncome =
     grossIncome - totalRelief;
 
   taxableIncome =
     Math.max(0, taxableIncome);
 
+
+  /*
+    Salary income up to 4,800,000 Ks
+    is exempt.
+  */
 
   let tax = 0;
 
@@ -429,6 +464,7 @@ function calculateTax() {
     tax / 12;
 
 
+  // Display results
   document.getElementById("annualSalary").textContent =
     formatMMK(annualSalary);
 
