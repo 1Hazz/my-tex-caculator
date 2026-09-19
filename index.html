@@ -11,7 +11,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, "Myanmar Text", sans-serif;
+      font-family: Arial, "Myanmar Text", "Noto Sans Myanmar", sans-serif;
     }
 
     body {
@@ -33,47 +33,53 @@
     }
 
     .header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
+  text-align: center;
+  margin-bottom: 32px;
+}
 
-    .header h1 {
-      font-size: 32px;
-      color: #172033;
-      margin-bottom: 8px;
-    }
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
 
-    .header p {
-      color: #777;
-      font-size: 16px;
-      font-weight: 400;
-    }
+.header p {
+  color: #6B6B6B;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
 
     .section-title {
       font-size: 18px;
       font-weight: 600;
-      color: #172033;
-      margin: 24px 0 12px;
+      color: #11111;
+      margin: 32px 0 16px;
     }
 
     label {
       display: block;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       font-size: 14px;
       font-weight: 600;
-      color: #444;
+      color: #111111;
     }
 
     input {
       width: 100%;
-      padding: 14px 16px;
-      border: 1px solid #d8dce3;
-      border-radius: 10px;
+      height: 56px;
+      padding: 0px 16px;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #111111;
       outline: none;
       font-size: 24px;
       font-weight: 600;
       margin-bottom: 15px;
-      transition: 0.2s;
+      transition: border-color 0.2s ease;
     }
 
     input:focus {
@@ -102,8 +108,12 @@
 
     button:hover {
       background: #222222;
+      transform: translateY(-1px);
     }
 
+    button:active {
+      transform: translateY(0);
+    }
     .result {
       margin-top: 32px;
       padding: 24px;
@@ -118,17 +128,24 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
       color: #172033;
     }
 
     .result-row {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
+      align-items: center;
+      gap: 16px;
       padding: 12px 0;
-      border-bottom: 1px solid #dce8f5;
-      font-size: 14px;
+      border-bottom: 1px solid #e5e5e5;
+      font-size: 15px;
+    }
+    
+    .result-row strong {
+      font-weight: 600;
+      color: #111111;
+      text-align: right;
     }
 
     .result-row:last-child {
@@ -136,6 +153,8 @@
     }
 
     .tax {
+      display: block;
+      margin: 8px 0 24px;
       font-size: 40px;
       font-weight: 700;
       color: #dc2626;
@@ -148,11 +167,31 @@
       color: #777;
     }
 
-    @media (max-width: 550px) {
+    @media (max-width: 600px) {
       .calculator {
         padding: 20px;
       }
 
+      .header h1 {
+        font-size: 28px;
+      }
+
+      .hrader p {
+        font-size: 15px;
+      }
+
+      .section-title {
+        margin-top: 28px;
+      }
+
+      .tax {
+        font-size: 34px;
+      }
+
+      .result {
+        padding: 20px;
+      }
+    }
       .row {
         grid-template-columns: 1fr;
         gap: 0;
@@ -261,48 +300,45 @@
     </button>
 
     <!-- Result -->
-    <div class="result" id="result">
+   <div class="result" id="result">
 
-      <h2>📊 တွက်ချက်မှုရလဒ်</h2>
+  <h2>YOUR ESTIMATED TAX</h2>
 
-      <div class="result-row">
-        <span>တစ်နှစ်လစာ</span>
-        <strong id="annualSalary">0 Ks</strong>
-      </div>
+  <strong class="tax" id="annualTax">0 Ks</strong>
 
-      <div class="result-row">
-        <span>စုစုပေါင်းဝင်ငွေ</span>
-        <strong id="grossIncome">0 Ks</strong>
-      </div>
+  <div class="result-row">
+    <span>အခွန်စည်းကြပ်ရန် ဝင်ငွေ</span>
+    <strong id="taxableIncome">0 Ks</strong>
+  </div>
 
-      <div class="result-row">
-        <span>စုစုပေါင်းသက်သာခွင့်</span>
-        <strong id="totalRelief">0 Ks</strong>
-      </div>
+  <div class="result-row">
+    <span>တစ်နှစ်လစာ</span>
+    <strong id="annualSalary">0 Ks</strong>
+  </div>
 
-      <div class="result-row">
-        <span>အခွန်စည်းကြပ်ရန် ဝင်ငွေ</span>
-        <strong id="taxableIncome">0 Ks</strong>
-      </div>
+  <div class="result-row">
+    <span>စုစုပေါင်းဝင်ငွေ</span>
+    <strong id="grossIncome">0 Ks</strong>
+  </div>
 
-      <div class="result-row">
-        <span>တစ်နှစ်ကျသင့်အခွန်</span>
-        <strong class="tax" id="annualTax">0 Ks</strong>
-      </div>
+  <div class="result-row">
+    <span>စုစုပေါင်းသက်သာခွင့်</span>
+    <strong id="totalRelief">0 Ks</strong>
+  </div>
 
-      <div class="result-row">
-        <span>လစဉ်ပျမ်းမျှအခွန်</span>
-        <strong id="monthlyTax">0 Ks</strong>
-      </div>
+  <div class="result-row">
+    <span>လစဉ်ပျမ်းမျှအခွန်</span>
+    <strong id="monthlyTax">0 Ks</strong>
+  </div>
 
-      <div class="note">
-        ⚠️ ဤ Calculator သည် ခန့်မှန်းတွက်ချက်ရန်အတွက်ဖြစ်ပါသည်။
-        အမှန်တကယ်အခွန်ပမာဏသည် သင်၏အခွန်အခြေအနေ၊
-        ဝင်ငွေအမျိုးအစားနှင့် သက်ဆိုင်ရာ IRD စည်းမျဉ်းများပေါ်
-        မူတည်နိုင်ပါသည်။
-      </div>
+  <div class="note">
+    ⚠️ ဤ Calculator သည် ခန့်မှန်းတွက်ချက်ရန်အတွက်ဖြစ်ပါသည်။
+    အမှန်တကယ်အခွန်ပမာဏသည် သင်၏အခွန်အခြေအနေ၊
+    ဝင်ငွေအမျိုးအစားနှင့် သက်ဆိုင်ရာ IRD စည်းမျဉ်းများပေါ်
+    မူတည်နိုင်ပါသည်။
+  </div>
 
-    </div>
+</div>
 
   </div>
 
